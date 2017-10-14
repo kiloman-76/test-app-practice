@@ -5,4 +5,5 @@ class UserFixture extends ActiveFixture
 {
     public $modelClass = 'app\models\User';
     //public $depends = ['app\tests\fixtures\UserFixture'];
+//    public $dataFile = '@fixtures\user.php';
 }

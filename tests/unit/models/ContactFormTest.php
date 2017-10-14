@@ -3,6 +3,7 @@
 namespace tests\models;
 
 use app\models\ContactForm;
+use yii;
 
 class ContactFormTest extends \Codeception\Test\Unit
 {
@@ -14,6 +15,8 @@ class ContactFormTest extends \Codeception\Test\Unit
 
     public function testEmailIsSentOnContact()
     {
+                return Yii::$app->db->dsn;
+
         /** @var ContactForm $model */
         $this->model = $this->getMockBuilder('app\models\ContactForm')
             ->setMethods(['validate'])

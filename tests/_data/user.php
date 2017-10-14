@@ -20,7 +20,7 @@ return [
         'username' => 'medved',
         'email' => 'medvedko_vasilii@mail.ru',
         'auth_key' => 'php_auth',
-        'password_hash' => '$2y$13$MVweziVsttfK2ldDyMbBF.d82drP2oiUsq1G8S5OHYlRIC1Ey6OdS',
+        'password_hash' => '$2y$13$8uqwo3Xj3TDI.aP4Kovp7e97be5VtUGUdQUaHQlR.t0isIDyjCTxm',
     ],
 ];
 
