@@ -9,8 +9,11 @@ use yii\web\Response;
 use yii\filters\VerbFilter;
 use app\models\user\LoginForm;
 use app\models\user\RegisterForm;
+use app\models\user\ResetPasswordForm;
+use app\models\user\SendMailForm;
 use app\models\User;
 use app\models\ContactForm;
+
 
 class UserController extends Controller
 {
@@ -71,12 +74,52 @@ class UserController extends Controller
 
         $model = new LoginForm();
         
-       
-        
         if ($model->load(Yii::$app->request->post()) && $model->login()) {
             return $this->goBack();
         }
         return $this->render('login', [
+            'model' => $model,
+        ]);
+    }
+    
+    public function actionSendMail()
+    {
+         if (!Yii::$app->user->isGuest) {
+            return $this->goHome();
+        }
+        
+        $model = new SendMailForm();
+        if ($model->load(Yii::$app->request->post()) && $model->sendMail()) {
+           $this->redirect( array('login','message'=>'На Ваш email было выслано письмо для подтверждения'));
+        }
+        
+        return $this->render('send-mail', [
+            'model' => $model,
+        ]);
+    }
+
+    public function actionResetPassword($token = null, $email= null)
+    {
+        if (!Yii::$app->user->isGuest) {
+            return $this->goHome();
+        }
+        
+        $model = new ResetPasswordForm();
+         if(isset($token)&& isset($email)){   
+            return $this->render('reset-password', [
+                'model' => $model,
+            ]);
+        }
+        
+         if ($model->load(Yii::$app->request->post()) && $password = $model->resetPassword()) {
+                $user = User::findByEmail($email);
+                $user->setPassword($password);
+                $user->save();
+                $this->redirect( array('login','message'=>' Теперь вы можете войти, используя ваш новый пароль') );
+            }
+                    
+        ;
+        return $this->render('reset-password', [
             'model' => $model,
         ]);
     }
@@ -108,15 +151,12 @@ class UserController extends Controller
         if($user -> auth_key == $token){
             $user -> status = 1;
             $user -> save();
-            Yii::$app->session->setFlash('testmessage','Вы успешно зарегистрировались на сайте, '
-                . 'теперь вы можете войти, используя свой логин и пароль');
-
-            $this->redirect( array('login','message'=>'testmessage') );
+            $this->redirect( array('login','message'=>'Вы успешно зарегистрировались на сайте, '
+                . 'теперь вы можете войти, используя свой логин и пароль') );
         } else {
             var_dump($user -> auth_key,$token); exit();
-            Yii::$app->session->setFlash('testmessage','Ошибка');
 
-            $this->redirect( array('login','message'=>'Ошибка') );        }
+            $this->redirect( array('login','message'=>'Ошибка в подтверждении пароля') );        }
     }
 
     

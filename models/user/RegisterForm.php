@@ -4,12 +4,7 @@ use Yii;
 use yii\base\Model;
 use app\models\User;
 
-/**
- * LoginForm is the model behind the login form.
- *
- * @property User|null $user This property is read-only.
- *
- */
+
 class RegisterForm extends Model
 {
     public $username;
@@ -69,9 +64,9 @@ class RegisterForm extends Model
     }
     
     public function verificateMail($user){
-Yii::$app->mailer->compose('verificationMail', [
-    'user' => $user  
-])        
+        Yii::$app->mailer->compose('verificationMail', [
+            'user' => $user  
+        ])        
         ->setFrom('test@domain.com')
         ->setTo($user->email)
         ->setSubject('Подтверждение регистрации')

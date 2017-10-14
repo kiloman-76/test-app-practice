@@ -4,7 +4,7 @@ return [
     'class' => 'yii\db\Connection',
     'dsn' => 'pgsql:host=localhost;dbname=yii2basic',
     'username' => 'test_root',
-    'password' => '19922001',
+    'password' => '',
     'charset' => 'utf8',
 
     // Schema cache options (for production environment)
