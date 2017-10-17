@@ -12,10 +12,13 @@ use app\models\user\RegisterForm;
 use app\models\ContactForm;
 use app\models\User;
 
-class SiteController extends Controller
+class AdminController extends Controller
 {
     
-     public function behaviors()
+    public $layout = 'admin';
+
+
+    public function behaviors()
     {
         return [
             'access' => [
