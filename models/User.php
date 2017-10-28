@@ -2,6 +2,8 @@
 
 namespace app\models;
 
+use app\models\operation\Operation;
+
 class User extends \yii\db\ActiveRecord implements \yii\web\IdentityInterface
 {
 
@@ -11,6 +13,20 @@ class User extends \yii\db\ActiveRecord implements \yii\web\IdentityInterface
     {
         return '{{%user}}';
     }
+    
+     public function GetSendedOperations(){
+        return $this->hasMany(Operation::className(), ['sender_id' => 'id']);
+    }
+    
+     public function GetRecipientOperations(){
+        return $this->hasMany(Operation::className(), ['recipient_id' => 'id']);
+    }
+    
+     public function GetCreatedOperations(){
+        return $this->hasMany(Operation::className(), ['creator_id' => 'id']);
+    }
+    
+    
     /**
      * @inheritdoc
      */
@@ -69,6 +85,16 @@ class User extends \yii\db\ActiveRecord implements \yii\web\IdentityInterface
     public function getAuthKey()
     {
         return $this->auth_key;
+    }
+    
+    public function getBalance()
+    {
+        return $this->balance;
+    }
+    
+    public function changeBalance($sum){
+        $this->balance += $sum;
+        $this->save();
     }
 
     /**

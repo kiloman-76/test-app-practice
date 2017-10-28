@@ -113,3 +113,18 @@ a.desc:after {
 .nav > li > form > button.logout:focus {
     outline: none;
 }
+
+.operation-item{
+    width: 100%;
+    padding: 10px;
+    display: block;
+    font-weight: bold;
+}
+
+.operation-item.red{
+    background-color:#ff9f9f;
+}
+
+.operation-item.green{
+    background-color:#65ff65;
+}

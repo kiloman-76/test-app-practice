@@ -46,13 +46,22 @@ AppAsset::register($this);
             . '</li>';
     }
     
-    NavBar::begin([
-        'brandLabel' => 'My Company',
-        'brandUrl' => Yii::$app->homeUrl,
-        'options' => [
-            'class' => 'navbar-inverse navbar-fixed-top',
-        ],
-    ]);
+    $brandLabel = "";
+    $brandUrl = "";
+    if (Yii::$app->user->can('admin')) {
+        $brandLabel = "Панель управления";
+        $brandUrl = "/admin/index";
+    }
+    
+        NavBar::begin([
+            
+           'brandLabel' => $brandLabel,
+            'brandUrl' => $brandUrl,
+            'options' => [
+                'class' => 'navbar-inverse navbar-fixed-top',
+            ],
+        ]);
+    
     echo Nav::widget([
         'options' => ['class' => 'navbar-nav navbar-right'],
         'items' => $menuItems

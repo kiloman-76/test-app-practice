@@ -2,9 +2,9 @@ class_name: AcceptanceTester
 modules:
     enabled:
         - WebDriver:
-            url: http://localhost:8000
+            url: http://yiiapp.loc
             browser: chrome
         - Yii2:
             part: orm
-            entryScript: index-test.php
+#            entryScript: index.php
             cleanup: false
