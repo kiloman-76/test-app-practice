@@ -14,8 +14,8 @@ class m171022_040530_addOperationTable extends Migration
     {
         $this->createTable('operation', [
             'id' => $this->primaryKey()->comment('Первичный ключ'),
-            'sender_id' => $this->integer('5')->notNull()->comment('Отправитель'),
-            'sender_balance' => $this->integer('10')->notNull()->comment('Баланс отправвителя'),
+            'sender_id' => $this->integer('5')->comment('Отправитель'),
+            'sender_balance' => $this->integer('10')->comment('Баланс отправвителя'),
             'money' => $this->integer('10')->notNull()->comment('Сумма перевода'),
             'recipient_id' => $this->integer('5')->notNull()->comment('Получатель'),
             'recipient_balance' => $this->integer('10')->notNull()->comment('Баланс получателя'),

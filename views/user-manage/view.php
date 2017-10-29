@@ -15,14 +15,26 @@ $this->params['breadcrumbs'][] = $this->title;
     <h1><?= Html::encode($this->title) ?></h1>
 
     <p>
-        <?= Html::a('Update', ['update', 'id' => $model->id], ['class' => 'btn btn-primary']) ?>
-        <?= Html::a('Delete', ['delete', 'id' => $model->id], [
+        <?= Html::a('Обновить', ['update', 'id' => $model->id], ['class' => 'btn btn-primary']) ?>
+        <?= Html::a('Удалить', ['delete', 'id' => $model->id], [
             'class' => 'btn btn-danger',
             'data' => [
-                'confirm' => 'Are you sure you want to delete this item?',
+                'confirm' => 'Вы уверены что хотите удалить этого пользователя?',
                 'method' => 'post',
             ],
         ]) ?>
+         <?= Html::a('Пополнить счет', ['add-money', 'id' => $model->id], ['class' => 'btn btn-primary']) ?>
+        
+        <?php
+            if($model->status == 10){
+                echo Html::a('Удалить права администратора', ['delete-admin-status', 'id' => $model->id], ['class' => 'btn btn-danger']); 
+            } else {
+                echo Html::a('Дать права администратора', ['add-admin-status', 'id' => $model->id], ['class' => 'btn btn-success']); 
+
+            }
+        ?>
+         <?= Html::a('Список операций', ['view-user-operations', 'id' => $model->id], ['class' => 'btn btn-primary']) ?>
+         <?= Html::a('Сделать перевод', ['make-transaction', 'id' => $model->id], ['class' => 'btn btn-primary']) ?>
     </p>
 
     <?= DetailView::widget([

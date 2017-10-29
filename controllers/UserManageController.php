@@ -4,10 +4,14 @@ namespace app\controllers;
 
 use Yii;
 use app\models\User;
+use app\models\operation\Operation;
 use app\models\user\UserSearch;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
+use app\models\operation\AddMoneyForm;
+use app\models\operation\MakeTransactionForm;
+
 
 /**
  * UserManageController implements the CRUD actions for User model.
@@ -105,7 +109,76 @@ class UserManageController extends Controller
 
         return $this->redirect(['index']);
     }
-
+    
+    public function actionAddMoney($id)
+    {   
+        if (Yii::$app->user->isGuest) {
+            return $this->goHome();
+        }
+        
+        $user = $this->findModel($id);
+        $model = new AddMoneyForm();
+        
+        if ($model->load(Yii::$app->request->post()) && $model->addMoney($user)) {
+            return $this->goBack();
+        }
+        
+        return $this->render('add-money', [
+            'model' => $model,
+        ]);
+    }
+    
+        public function actionMakeTransaction($id)
+    {   
+       if (Yii::$app->user->isGuest) {
+            return $this->goHome();
+        }
+        $user = $this->findModel($id);
+        $model = new MakeTransactionForm();
+        $model->sender = $user;
+        
+        if ($model->load(Yii::$app->request->post()) && $model->sendMoney($user)) {
+            return $this->goBack();
+        }
+        
+        return $this->render('send-money', [
+            'model' => $model,
+        ]);
+    }
+    
+    public function actionAddAdminStatus($id){
+        if (Yii::$app->user->isGuest) {
+            return $this->goHome();
+        }
+        
+        $user = $this->findModel($id);
+        if($user->addAdminStatus()){
+            
+            return $this->goBack();
+        };
+    }
+    
+    public function actionDeleteAdminStatus($id){
+        if (Yii::$app->user->isGuest) {
+            return $this->goHome();
+        }
+        $user = $this->findModel($id);
+         if($user->deleteAdminStatus()){
+            
+            return $this->goBack();
+        };
+    }
+    
+    public function actionViewUserOperations($id){
+         if (Yii::$app->user->isGuest) {
+            return $this->goHome();
+        }
+        $operations = Operation::findUserOperation($id);
+        return $this->render('view-transaction', [
+            'user_id' => $id,
+            'operations' => $operations
+        ]);
+    }
     /**
      * Finds the User model based on its primary key value.
      * If the model is not found, a 404 HTTP exception will be thrown.

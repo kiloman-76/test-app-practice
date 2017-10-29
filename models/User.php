@@ -96,6 +96,32 @@ class User extends \yii\db\ActiveRecord implements \yii\web\IdentityInterface
         $this->balance += $sum;
         $this->save();
     }
+    
+    public function addAdminStatus(){
+        
+        $this->status = 10;
+        $this->save();
+        
+        $rbac = \Yii::$app->authManager;
+        $admin = $rbac->getRole('admin');
+        $rbac->assign($admin,$this->getId());
+        
+               
+        return true;
+    }
+    
+     public function deleteAdminStatus(){
+         
+        $this->status = 1;
+        $this->save(); 
+         
+        $rbac = \Yii::$app->authManager;
+        $admin = $rbac->getRole('admin');
+        $rbac->revoke($admin,$this->getId());
+        
+        
+        return true;
+    }
 
     /**
      * @inheritdoc

@@ -31,8 +31,7 @@ class Operation extends \yii\db\ActiveRecord
     /**
      * @inheritdoc
      */
-    
-    
+
     public static function findUserOperation($user_id)
     {
         return static::find()->where(['sender_id' => $user_id])

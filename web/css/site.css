@@ -128,3 +128,11 @@ a.desc:after {
 .operation-item.green{
     background-color:#65ff65;
 }
+
+.text_color_red{
+    color:#cf0000;
+}
+
+.text_color_green{
+    color:green;
+}

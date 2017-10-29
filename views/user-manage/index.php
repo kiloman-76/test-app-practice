@@ -34,7 +34,32 @@ $this->params['breadcrumbs'][] = $this->title;
             'balance',
             //'status',
 
-            ['class' => 'yii\grid\ActionColumn'],
+            ['class' => 'yii\grid\ActionColumn',
+             'template'=>'{view}{delete}{update}{add-admin-status}{delete-admin-status}{add-money}{make-transaction}{view-user-operations}',
+              'buttons' => [
+                'add-admin-status' => function ($url,$model,$key) {
+//        var_dump($model); exit();
+                    if($model->status == 1){
+                        return Html::a( '<span class="glyphicon glyphicon-arrow-up text_color_green"></span>', $url);
+                    } 
+                },
+                'delete-admin-status'=> function ($url,$model,$key){
+                    if($model->status == 10){
+                        return Html::a( '<span class="glyphicon glyphicon-arrow-down text_color_red"></span>', $url);
+
+                    }
+                },
+                'add-money' => function ($url,$model,$key){
+                    return Html::a( '<span class="glyphicon glyphicon-usd"></span>', $url);
+                },
+                'make-transaction' => function ($url,$model,$key){
+                    return Html::a( '<span class="glyphicon glyphicon-share-alt"></span>', $url);
+                },
+                'view-user-operations' => function ($url,$model,$key){
+                    return Html::a( '<span class="glyphicon glyphicon-align-justify"></span>', $url);
+                },
+            ],
+                ],
         ],
     ]); ?>
     <?php Pjax::end(); ?>
