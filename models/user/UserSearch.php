@@ -10,13 +10,12 @@ use app\models\User;
 /**
  * UserSearch represents the model behind the search form of `app\models\User`.
  */
-class UserSearch extends User
-{
+class UserSearch extends User {
+
     /**
      * @inheritdoc
      */
-    public function rules()
-    {
+    public function rules() {
         return [
             [['id', 'balance', 'status'], 'integer'],
             [['username', 'email', 'password_hash', 'auth_key'], 'safe'],
@@ -26,8 +25,7 @@ class UserSearch extends User
     /**
      * @inheritdoc
      */
-    public function scenarios()
-    {
+    public function scenarios() {
         // bypass scenarios() implementation in the parent class
         return Model::scenarios();
     }
@@ -39,8 +37,7 @@ class UserSearch extends User
      *
      * @return ActiveDataProvider
      */
-    public function search($params)
-    {
+    public function search($params) {
         $query = User::find();
 
         // add conditions that should always apply here
@@ -65,10 +62,11 @@ class UserSearch extends User
         ]);
 
         $query->andFilterWhere(['ilike', 'username', $this->username])
-            ->andFilterWhere(['ilike', 'email', $this->email])
-            ->andFilterWhere(['ilike', 'password_hash', $this->password_hash])
-            ->andFilterWhere(['ilike', 'auth_key', $this->auth_key]);
+                ->andFilterWhere(['ilike', 'email', $this->email])
+                ->andFilterWhere(['ilike', 'password_hash', $this->password_hash])
+                ->andFilterWhere(['ilike', 'auth_key', $this->auth_key]);
 
         return $dataProvider;
     }
+
 }

@@ -1,5 +1,4 @@
 <?php
-
 /* @var $this yii\web\View */
 
 $this->title = 'Тестовый проект';
@@ -16,6 +15,6 @@ $this->title = 'Тестовый проект';
             <a class="btn btn-lg btn-success" href="/user/register">Зарегистрироваться</a>
         </p>
     </div>
-    
+
 
 </div>

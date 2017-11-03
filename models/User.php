@@ -4,42 +4,35 @@ namespace app\models;
 
 use app\models\operation\Operation;
 
-class User extends \yii\db\ActiveRecord implements \yii\web\IdentityInterface
-{
+class User extends \yii\db\ActiveRecord implements \yii\web\IdentityInterface {
 
-
-    
-     public static function tableName()
-    {
+    public static function tableName() {
         return '{{%user}}';
     }
-    
-     public function GetSendedOperations(){
+
+    public function GetSendedOperations() {
         return $this->hasMany(Operation::className(), ['sender_id' => 'id']);
     }
-    
-     public function GetRecipientOperations(){
+
+    public function GetRecipientOperations() {
         return $this->hasMany(Operation::className(), ['recipient_id' => 'id']);
     }
-    
-     public function GetCreatedOperations(){
+
+    public function GetCreatedOperations() {
         return $this->hasMany(Operation::className(), ['creator_id' => 'id']);
     }
-    
-    
+
     /**
      * @inheritdoc
      */
-    public static function findIdentity($id)
-    {
+    public static function findIdentity($id) {
         return static::findOne(['id' => $id]);
     }
 
     /**
      * @inheritdoc
      */
-    public static function findIdentityByAccessToken($token, $type = null)
-    {
+    public static function findIdentityByAccessToken($token, $type = null) {
         foreach (self::$users as $user) {
             if ($user['accessToken'] === $token) {
                 return new static($user);
@@ -55,79 +48,71 @@ class User extends \yii\db\ActiveRecord implements \yii\web\IdentityInterface
      * @param string $username
      * @return static|null
      */
-    public static function findByUsername($username)
-    {
+    public static function findByUsername($username) {
         return static::findOne(['username' => $username]);
-
     }
-    
-       public static function findByEmail($email)
-    {
-        return static::findOne(['email' => $email]);
 
+    public static function findByEmail($email) {
+        return static::findOne(['email' => $email]);
     }
 
     /**
      * @inheritdoc
      */
-    public function getId()
-    {
+    public function getId() {
         return $this->id;
     }
-    
-    public function generateAuthKey(){
+
+    public function generateAuthKey() {
         $this->auth_key = \Yii::$app->security->generateRandomString();
     }
 
     /**
      * @inheritdoc
      */
-    public function getAuthKey()
-    {
+    public function getAuthKey() {
         return $this->auth_key;
     }
-    
-    public function getBalance()
-    {
+
+    public function getBalance() {
         return $this->balance;
     }
-    
-    public function changeBalance($sum){
+
+    public function changeBalance($sum) {
         $this->balance += $sum;
         $this->save();
     }
-    
-    public function addAdminStatus(){
-        
+
+    public function addAdminStatus() {
+
         $this->status = 10;
         $this->save();
-        
+
         $rbac = \Yii::$app->authManager;
         $admin = $rbac->getRole('admin');
-        $rbac->assign($admin,$this->getId());
-        
-               
+        $rbac->assign($admin, $this->getId());
+
+
         return true;
     }
-    
-     public function deleteAdminStatus(){
-         
+
+    public function deleteAdminStatus() {
+
         $this->status = 1;
-        $this->save(); 
-         
+        $this->save();
+
         $rbac = \Yii::$app->authManager;
         $admin = $rbac->getRole('admin');
-        $rbac->revoke($admin,$this->getId());
-        
-        
+        $rbac->revoke($admin, $this->getId());
+
+
         return true;
     }
 
     /**
      * @inheritdoc
      */
-    public function validateAuthKey($authKey)
-    {
+    public function validateAuthKey($authKey) {
         return $this->authKey === $authKey;
     }
 
@@ -137,13 +122,47 @@ class User extends \yii\db\ActiveRecord implements \yii\web\IdentityInterface
      * @param string $password password to validate
      * @return bool if password provided is valid for current user
      */
-    public function validatePassword($password)
-    {
+    public function validatePassword($password) {
         return \Yii::$app->security->validatePassword($password, $this->password_hash);
     }
-    
-     public function setPassword($password)
-     {
-         $this->password_hash = \Yii::$app->security->generatePasswordHash($password);
-     }
+
+    public function setPassword($password) {
+        $this->password_hash = \Yii::$app->security->generatePasswordHash($password);
+    }
+
+    public function getOperationInfo() {
+        $operations = Array();
+        $operations['send'] = $this->getSumSended();
+        $operations['recipient'] = $this->getSumRecipient();
+        $operations['number'] = $this->getNumberOfOperations();
+        return $operations;
+    }
+
+    public function getNumberOfOperations() {
+        $count = 0;
+        $operations = Operation::findUserOperation($this->id);
+        foreach ($operations as $operation) {
+            $count++;
+        }
+        return $count;
+    }
+
+    public function getSumSended() {
+        $operations = $this->sendedOperations;
+        $sum = 0;
+        foreach ($operations as $operation) {
+            $sum += $operation->money;
+        }
+        return $sum;
+    }
+
+    public function getSumRecipient() {
+        $operations = $this->recipientOperations;
+        $sum = 0;
+        foreach ($operations as $operation) {
+            $sum += $operation->money;
+        }
+        return $sum;
+    }
+
 }

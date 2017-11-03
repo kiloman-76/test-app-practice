@@ -136,3 +136,15 @@ a.desc:after {
 .text_color_green{
     color:green;
 }
+
+.no-edit .glyphicon{
+    display: none;
+}
+
+.no-edit .glyphicon.glyphicon-eye-open,
+.no-edit .glyphicon.glyphicon-usd,
+.no-edit .glyphicon.glyphicon-share-alt,
+.no-edit .glyphicon.glyphicon-align-justify{
+    display: inline-block;
+}
+

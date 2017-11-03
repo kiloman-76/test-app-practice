@@ -1,12 +1,13 @@
 <?php
+
 namespace app\models\user;
+
 use Yii;
 use yii\base\Model;
 use app\models\User;
 
+class RegisterForm extends Model {
 
-class RegisterForm extends Model
-{
     public $username;
     public $email;
     public $password;
@@ -14,8 +15,7 @@ class RegisterForm extends Model
     /**
      * @inheritdoc
      */
-    public function rules()
-    {
+    public function rules() {
         return [
             ['username', 'trim'],
             ['username', 'required'],
@@ -31,25 +31,20 @@ class RegisterForm extends Model
         ];
     }
 
-    public function attributeLabels()
-    {
+    public function attributeLabels() {
         return [
-
             'username' => 'Логин',
             'email' => 'Почта',
             'password' => 'Пароль',
-
         ];
     }
-
 
     /**
      * Registers user
      *
      * @return User|null the saved model or null if saving fails
      */
-    public function register()
-    {
+    public function register() {
         if (!$this->validate()) {
             return null;
         }
@@ -62,14 +57,15 @@ class RegisterForm extends Model
 
         return $user->save() ? $user : null;
     }
-    
-    public function verificateMail($user){
+
+    public function verificateMail($user) {
         Yii::$app->mailer->compose('verificationMail', [
-            'user' => $user  
-        ])        
-        ->setFrom('test@domain.com')
-        ->setTo($user->email)
-        ->setSubject('Подтверждение регистрации')
-        ->send();
+                    'user' => $user
+                ])
+                ->setFrom('test@domain.com')
+                ->setTo($user->email)
+                ->setSubject('Подтверждение регистрации')
+                ->send();
     }
+
 }

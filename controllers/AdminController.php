@@ -12,13 +12,12 @@ use yii\filters\VerbFilter;
 /**
  * AdminController implements the CRUD actions for User model.
  */
-class AdminController extends Controller
-{
+class AdminController extends Controller {
+
     /**
      * @inheritdoc
      */
-    public function behaviors()
-    {
+    public function behaviors() {
         return [
             'verbs' => [
                 'class' => VerbFilter::className(),
@@ -33,11 +32,9 @@ class AdminController extends Controller
      * Lists all User models.
      * @return mixed
      */
-    public function actionIndex()
-    {
+    public function actionIndex() {
         $this->layout = "admin";
         return $this->render('index');
     }
 
-    
 }
