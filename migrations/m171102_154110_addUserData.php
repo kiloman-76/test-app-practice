@@ -15,7 +15,7 @@ class m171102_154110_addUserData extends Migration {
         $this->insert('user', [
             'username' => 'admin',
             'email' => 'admin@mail.ru',
-            'password_hash' => \Yii::$app->security->generatePasswordHash($password),
+            'password_hash' => \Yii::$app->security->generatePasswordHash('admin'),
             'auth_key' => \Yii::$app->security->generateRandomString(),
             'balance' => 100,
             'status' => 1
@@ -30,9 +30,7 @@ class m171102_154110_addUserData extends Migration {
      * @inheritdoc
      */
     public function safeDown() {
-        echo "m171102_154110_addUserData cannot be reverted.\n";
-
-        return false;
+        $this->delete('user', ['id' => 1]);
     }
 
     /*
