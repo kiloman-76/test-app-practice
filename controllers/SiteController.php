@@ -46,10 +46,13 @@ class SiteController extends Controller {
     }
 
     public function actionIndex() {
-        $user = User::findIdentity(Yii::$app->user->identity->id);
-        $operations = $user->getOperationInfo();
+         if (!Yii::$app->user->isGuest) {
+            $user = User::findIdentity(Yii::$app->user->identity->id);
+            $operations = $user->getOperationInfo();
+            return $this->render('index', ['operations' => $operations]);
 
-        return $this->render('index', ['operations' => $operations]);
+         }
+        return $this->render('index');
     }
 
     public function actionAbout() {

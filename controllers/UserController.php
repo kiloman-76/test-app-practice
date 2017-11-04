@@ -127,10 +127,10 @@ class UserController extends Controller {
 
             $model->verificateMail($user);
 
-            return $this->goBack();
+            return $this->redirect(array('login', 'message' => ' Теперь вы можете войти, используя ваш новый пароль'));
         }
         return $this->render('register', [
-                    'model' => $model,
+            'model' => $model,
         ]);
     }
 
