@@ -54,24 +54,36 @@ class OperationController extends Controller {
         if (Yii::$app->user->isGuest) {
             return $this->goHome();
         }
-
+        $message = '';
         $model = new SendMoneyForm();
 
-        if ($model->load(Yii::$app->request->post()) && $model->sendMoney()) {
-            return $this->goBack();
+        if ($model->load(Yii::$app->request->post()) && $model->sendMoney()) {      
+            $message = "Деньги были отправлены";
         }
 
         return $this->render('send-money', [
                     'model' => $model,
+                    'message' => $message
         ]);
     }
 
-    public function actionViewTransaction() {
+    public function actionViewTransaction($type = 0) {
         if (Yii::$app->user->isGuest) {
             return $this->goHome();
         }
         $user_id = Yii::$app->user->identity->id;
-        $operations = Operation::findUserOperation($user_id);
+        $user= User::findIdentity($user_id);
+        
+        
+        if($type == 1){
+            $operations = $user->sendedOperations;
+        } else if ($type == 2){
+            $operations = $user->recipientOperations;
+        } else {
+            $operations = Operation::findUserOperation($user_id);
+        }
+        
+     
         return $this->render('view-transaction', [
                     'operations' => $operations
         ]);

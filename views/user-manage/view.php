@@ -2,6 +2,8 @@
 
 use yii\helpers\Html;
 use yii\widgets\DetailView;
+use yii\widgets\Pjax;
+
 
 /* @var $this yii\web\View */
 /* @var $model app\models\User */
@@ -30,9 +32,9 @@ $user_current = Yii::$app->user->identity->id;
             ?>
             <?php
             if ($model->status == 10) {
-                echo Html::a('Удалить права администратора', ['delete-admin-status', 'id' => $model->id], ['class' => 'btn btn-danger']);
+                echo Html::a('Удалить права администратора', '#', ['class' => 'btn btn-danger delete-admin','data'=>['id'=>$model->id] ]);
             } else {
-                echo Html::a('Дать права администратора', ['add-admin-status', 'id' => $model->id], ['class' => 'btn btn-success']);
+                echo Html::a('Дать права администратора', '#', ['class' => 'btn btn-success add-admin','data'=>['id'=>$model->id] ]);
             }
             ?>
         <?php endif; ?>

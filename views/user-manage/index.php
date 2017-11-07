@@ -52,12 +52,12 @@ $this->params['breadcrumbs'][] = $this->title;
                     'add-admin-status' => function ($url, $model, $key) {
 //        var_dump($model); exit();
                         if ($model->status == 1) {
-                            return Html::a('<span class="glyphicon glyphicon-arrow-up text_color_green"></span>', $url);
+                            return Html::a('<span class="glyphicon glyphicon-arrow-up text_color_green"></span>', '#', ['class'=>'add-admin', 'data'=>['id'=>$model->id]]);
                         }
                     },
                     'delete-admin-status' => function ($url, $model, $key) {
                         if ($model->status == 10) {
-                            return Html::a('<span class="glyphicon glyphicon-arrow-down text_color_red"></span>', $url);
+                            return Html::a('<span class="glyphicon glyphicon-arrow-down text_color_red"></span>', '#', ['class'=>'delete-admin', 'data'=>['id'=>$model->id]]);
                         }
                     },
                     'add-money' => function ($url, $model, $key) {

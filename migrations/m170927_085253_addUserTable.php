@@ -18,7 +18,7 @@ class m170927_085253_addUserTable extends Migration {
             'password_hash' => $this->string('200')->notNull()->comment('Пароль'),
             'auth_key' => $this->string('200')->notNull()->comment('Ключ авторизации'),
             'balance' => $this->integer('10')->comment('Баланс')->defaultValue(100),
-            'status' => $this->integer('2')->comment('Статус')->defaultValue(0),
+            'status' => $this->integer('2')->comment('Статус')->defaultValue(1),
         ]);
     }
 

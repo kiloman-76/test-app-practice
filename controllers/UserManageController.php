@@ -4,15 +4,18 @@ namespace app\controllers;
 
 use Yii;
 use yii\filters\AccessControl;
+use yii\filters\VerbFilter;
+use yii\helpers\Html;
 use app\models\User;
 use app\models\operation\Operation;
+use app\models\operation\AddMoneyForm;
+use app\models\operation\MakeTransactionForm;
 use app\models\user\UserSearch;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\web\HttpException;
-use yii\filters\VerbFilter;
-use app\models\operation\AddMoneyForm;
-use app\models\operation\MakeTransactionForm;
+
+
 
 /**
  * UserManageController implements the CRUD actions for User model.
@@ -161,8 +164,7 @@ class UserManageController extends Controller {
 
         $user = $this->findModel($id);
         if ($user->addAdminStatus()) {
-
-            return $this->goBack();
+            return $user->id;
         };
     }
 
@@ -175,8 +177,7 @@ class UserManageController extends Controller {
         }
         $user = $this->findModel($id);
         if ($user->deleteAdminStatus()) {
-
-            return $this->goBack();
+            return $user->id;
         };
     }
 
