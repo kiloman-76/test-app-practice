@@ -47,4 +47,9 @@ $('document').ready(() => {
 
         })
     })
+    
+    $('#sendmoneyform-email').on('keyup', function(){
+        console.log($(this).val());
+        $.pjax.reload({container : '#search-users', timeout: '5000', url:'/user-manage/search?email=' + $(this).val()});
+    })
 });

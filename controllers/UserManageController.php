@@ -58,6 +58,15 @@ class UserManageController extends Controller {
                     'dataProvider' => $dataProvider,
         ]);
     }
+    
+    
+    public function actionSearch($email){
+        $users = User::findUser($email);
+       
+        return $this->render('users-search', [
+            'users' => $users,
+        ]);
+    }
 
     /**
      * Displays a single User model.
@@ -66,7 +75,7 @@ class UserManageController extends Controller {
      */
     public function actionView($id) {
         return $this->render('view', [
-                    'model' => $this->findModel($id),
+            'model' => $this->findModel($id),
         ]);
     }
 

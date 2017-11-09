@@ -4,6 +4,7 @@ namespace app\models;
 
 use app\models\operation\Operation;
 
+
 class User extends \yii\db\ActiveRecord implements \yii\web\IdentityInterface {
 
     public static function tableName() {
@@ -50,6 +51,11 @@ class User extends \yii\db\ActiveRecord implements \yii\web\IdentityInterface {
      */
     public static function findByUsername($username) {
         return static::findOne(['username' => $username]);
+    }
+    
+    public static function findUser($email) {
+      
+       return static::find()->filterWhere(['like', 'email', $email])->all();
     }
 
     public static function findByEmail($email) {
