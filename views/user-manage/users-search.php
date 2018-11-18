@@ -5,6 +5,7 @@ use yii\widgets\Pjax;
         <?php
                 foreach($users as $user){
                     echo $user->email;
+                    echo '<br>';
                 }
         ?>
     <?php Pjax::end(); ?>

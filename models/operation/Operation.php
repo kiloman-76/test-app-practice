@@ -22,9 +22,6 @@ class Operation extends \yii\db\ActiveRecord {
         return $this->hasOne(User::className(), ['id' => 'creator_id']);
     }
 
-    /**
-     * @inheritdoc
-     */
     public static function findUserOperation($user_id) {
         return static::find()->where(['sender_id' => $user_id])
                         ->orWhere(['recipient_id' => $user_id])->all();

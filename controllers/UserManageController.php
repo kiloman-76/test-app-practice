@@ -34,6 +34,11 @@ class UserManageController extends Controller {
                         'allow' => true,
                         'roles' => ['admin'],
                     ],
+					[
+						'allow' => true,
+						'actions' => ['search'],
+						'roles' => ['@'],
+					],
                 ],
             ],
             'verbs' => [
@@ -63,7 +68,7 @@ class UserManageController extends Controller {
     public function actionSearch($email){
         $users = User::findUser($email);
        
-        return $this->render('users-search', [
+        return $this->renderPartial('users-search', [
             'users' => $users,
         ]);
     }

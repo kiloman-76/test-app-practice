@@ -28,22 +28,21 @@ class SendMoneyForm extends Model {
 
         return [
             [['email', 'money'], 'required'],
+			['email', 'email'],
             ['email', 'trim'],
-            ['email', 'email'],
             ['email', 'string', 'max' => 255],
             ['email', 'exist', 'targetClass' => 'app\models\User', 'message' => 'Такого адреса нет в системе'],
             ['email', 'compare', 'compareValue' => $current_email, 'operator' => '!=', 'message' => 'Вы не можете перевести деньги самому себе!'],
-            ['money', 'double', 'message' => 'Пожалуйста, введите число'],
-            ['money', 'double', 'message' => 'Сумма не может быть меньше 1 копейки', 'min' => 0.01],
-            ['money', 'double', 'message' => 'Сумма отправки не может превышать сумму средств на вашем счету', 'max' => $current_balance,],
+            ['money', 'double', 'message' => 'Пожалуйста, введите число', 'tooSmall' => 'Сумма не может быть меньше 1 копейки'],
+            ['money', 'double', 'tooSmall' => 'Сумма отправки не может быть меньше копейки!', 'min' => 0.01],
+            ['money', 'double', 'tooBig' => 'Сумма отправки не может превышать сумму средств на вашем счету', 'max' => $current_balance,],
         ];
     }
 
     public function attributeLabels() {
         return [
-            'username' => 'Логин',
-            'password' => 'Пароль',
-            'rememberMe' => 'Запомнить меня',
+            'email' => 'Email получателя',
+            'money' => 'Сумма для перевода',
         ];
     }
 

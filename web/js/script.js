@@ -1,6 +1,5 @@
-$('document').ready(() => {
-    console.log('my js');
-    
+$('document').ready(function(){
+
     $('body').on('click', '.add-admin', function() {
         console.log('del');
         var link = $(this);
