@@ -6,6 +6,7 @@ use Yii;
 use yii\base\Model;
 use app\models\User;
 use app\models\operation\Operation;
+use app\models\News;
 
 /**
  * LoginForm is the model behind the login form.
@@ -22,9 +23,10 @@ class AddMoneyForm extends Model {
      */
     public function rules() {
         return [
-            ['money', 'required'],
+            ['money', 'required', 'message' => 'Сумма перевода не может быть пустой!'],
             ['money', 'double', 'message' => 'Пожалуйста, введите число'],
-            ['money', 'double', 'message' => 'Сумма не может быть меньше 1 копейки', 'min' => 0.01],
+            ['money', 'double', 'tooSmall' => 'Сумма отправки не может быть меньше копейки!', 'min' => 0.01],
+            ['money', 'match', 'pattern' => '/^\d+(.\d{1,2})?$/', 'message' => 'Не более двух знаков после запятой!']
         ];
     }
 
@@ -61,6 +63,11 @@ class AddMoneyForm extends Model {
             $operation->creator_id = $admin_id;
 
             $operation->save();
+
+            $news = new News;
+            $news->user_id = $recipient->id;
+            $news->text = "На ваш счет добавлено $this->money рублей";
+            $news->save();
             return true;
         }
         return false;

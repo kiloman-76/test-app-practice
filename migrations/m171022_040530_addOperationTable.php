@@ -13,13 +13,13 @@ class m171022_040530_addOperationTable extends Migration {
     public function safeUp() {
         $this->createTable('operation', [
             'id' => $this->primaryKey()->comment('Первичный ключ'),
-            'sender_id' => $this->integer('5')->comment('Отправитель'),
-            'sender_balance' => $this->integer('10')->comment('Баланс отправвителя'),
-            'money' => $this->integer('10')->notNull()->comment('Сумма перевода'),
-            'recipient_id' => $this->integer('5')->notNull()->comment('Получатель'),
-            'recipient_balance' => $this->integer('10')->notNull()->comment('Баланс получателя'),
+            'sender_id' => $this->integer('100')->comment('Отправитель'),
+            'sender_balance' => $this->float('2')->comment('Баланс отправвителя'),
+            'money' => $this->float('2')->notNull()->comment('Сумма перевода'),
+            'recipient_id' => $this->integer('100')->notNull()->comment('Получатель'),
+            'recipient_balance' => $this->float('2')->comment('Баланс получателя'),
             'creation_data' => $this->integer('15')->notNull()->comment('Дата создания'),
-            'creator_id' => $this->integer('5')->comment('Создатель'),
+            'creator_id' => $this->integer('100')->comment('Создатель'),
         ]);
     }
 

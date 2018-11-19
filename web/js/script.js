@@ -11,7 +11,7 @@ $('document').ready(function(){
                 if(link.hasClass('btn')){
                     link.replaceWith('<a class="btn btn-danger delete-admin" href="#" data-id="'+ response + '">Удалить права администратора</a>');
                 } else {
-                    link.replaceWith('<a class="delete-admin" href="#" data-id="'+ response + '"><span class="glyphicon glyphicon-arrow-down text_color_red"></span></a>');
+                    link.replaceWith('<a class="delete-admin" title="Удалить права администратора" href="#" data-id="'+ response + '"><span class="glyphicon glyphicon-arrow-down text_color_red"></span></a>');
                 }
             },
             error: function(error) {
@@ -31,7 +31,7 @@ $('document').ready(function(){
                 if(link.hasClass('btn')){
                     link.replaceWith('<a class="btn btn-success add-admin" href="#" data-id="' + response  + '">Дать права администратора</a>');
                 } else {
-                    link.replaceWith('<a class="add-admin" href="#" data-id="'+ response + '"><span class="glyphicon glyphicon-arrow-up text_color_green"></span></a>');
+                    link.replaceWith('<a class="add-admin" title="Дать права администратора" href="#" data-id="'+ response + '"><span class="glyphicon glyphicon-arrow-up text_color_green"></span></a>');
                 }
             },
             error: function(error) {
@@ -49,6 +49,6 @@ $('document').ready(function(){
     
     $('#sendmoneyform-email').on('keyup', function(){
         console.log($(this).val());
-        $.pjax.reload({container : '#search-users', timeout: '5000', url:'/user-manage/search?email=' + $(this).val()});
+        $.ajax()
     })
 });

@@ -6,6 +6,7 @@ use Yii;
 use yii\base\Model;
 use app\models\User;
 use app\models\operation\Operation;
+use app\models\News;
 
 /**
  * LoginForm is the model behind the login form.
@@ -31,11 +32,11 @@ class MakeTransactionForm extends Model {
             ['email', 'trim'],
             ['email', 'email'],
             ['email', 'string', 'max' => 255],
-            ['email', 'exist', 'targetClass' => 'app\models\User', 'message' => 'Такого адреса нет в системе'],
-            ['email', 'compare', 'compareValue' => $current_email, 'operator' => '!=', 'message' => 'Вы не можете перевести деньги самому себе!'],
+            ['email', 'exist', 'targetClass' => 'app\models\User', 'message' => 'Такого адреса нет в базе пользователей!'],
+            ['email', 'compare', 'compareValue' => $current_email, 'operator' => '!=', 'message' => 'Вы не можете перевести деньги этому же пользователю!'],
             ['money', 'double', 'message' => 'Пожалуйста, введите число'],
-            ['money', 'double', 'message' => 'Сумма не может быть меньше 1 копейки', 'min' => 0.01],
-            ['money', 'double', 'message' => 'Сумма отправки не может превышать сумму средств на вашем счету', 'max' => $current_balance,],
+            ['money', 'double', 'tooSmall' => 'Сумма отправки не может быть меньше копейки!', 'min' => 0.01],
+            ['money', 'double', 'tooBig' => 'Сумма отправки не может превышать сумму средств счету пользователя!', 'max' => $current_balance,]
         ];
     }
 
@@ -66,14 +67,14 @@ class MakeTransactionForm extends Model {
 
             $sender->changeBalance(-1 * $this->money);
             $sender->save();
+
             $operation->sender_id = $sender->id;
             $operation->sender_balance = $sender->balance;
-
-
 
             $recipient = User::findByEmail($this->email);
             $recipient->changeBalance($this->money);
             $recipient->save();
+
             $operation->recipient_id = $recipient->id;
             $operation->recipient_balance = $recipient->balance;
 
@@ -81,8 +82,12 @@ class MakeTransactionForm extends Model {
             $operation->creation_data = date('U');
             $operation->creator_id = Yii::$app->user->identity->id;
 
-
             $operation->save();
+
+            $news = new News;
+            $news->user_id = $recipient->id;
+            $news->text = "Вам начислено $this->money рублей от пользователя $this->email";
+            $news->save();
             return true;
         }
         return false;

@@ -5,6 +5,7 @@ namespace app\models\operation;
 use Yii;
 use yii\base\Model;
 use app\models\User;
+use app\models\News;
 use app\models\operation\Operation;
 
 /**
@@ -33,9 +34,11 @@ class SendMoneyForm extends Model {
             ['email', 'string', 'max' => 255],
             ['email', 'exist', 'targetClass' => 'app\models\User', 'message' => 'Такого адреса нет в системе'],
             ['email', 'compare', 'compareValue' => $current_email, 'operator' => '!=', 'message' => 'Вы не можете перевести деньги самому себе!'],
-            ['money', 'double', 'message' => 'Пожалуйста, введите число', 'tooSmall' => 'Сумма не может быть меньше 1 копейки'],
+            ['money', 'double', 'message' => 'Пожалуйста, введите число'],
             ['money', 'double', 'tooSmall' => 'Сумма отправки не может быть меньше копейки!', 'min' => 0.01],
             ['money', 'double', 'tooBig' => 'Сумма отправки не может превышать сумму средств на вашем счету', 'max' => $current_balance,],
+            ['money', 'match', 'pattern' => '/^\d+(.\d{1,2})?$/', 'message' => 'Не более двух знаков после запятой!']
+
         ];
     }
 
@@ -68,20 +71,20 @@ class SendMoneyForm extends Model {
             $operation->sender_id = $sender->id;
             $operation->sender_balance = $sender->balance;
 
-
-
             $recipient = User::findByEmail($this->email);
             $recipient->changeBalance($this->money);
             $recipient->save();
             $operation->recipient_id = $recipient->id;
             $operation->recipient_balance = $recipient->balance;
-
             $operation->money = $this->money;
             $operation->creation_data = date('U');
             $operation->creator_id = $sender->id;
-
-
             $operation->save();
+
+            $news = new News;
+            $news->user_id = $recipient->id;
+            $news->text = "Вам начислено $this->money рублей от пользователя $sender->email";
+            $news->save();
             return true;
         }
         return false;

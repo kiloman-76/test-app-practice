@@ -6,11 +6,8 @@ use Yii;
 use yii\filters\AccessControl;
 use yii\web\Controller;
 use yii\web\Response;
-use yii\filters\VerbFilter;
-use app\models\user\LoginForm;
-use app\models\user\RegisterForm;
-use app\models\ContactForm;
 use app\models\User;
+use app\models\request\AddRequestForm;
 
 class SiteController extends Controller {
 
@@ -18,12 +15,12 @@ class SiteController extends Controller {
         return [
             'access' => [
                 'class' => AccessControl::className(),
-                'only' => ['testmin'],
+                'only' => ['request'],
                 'rules' => [
                     [
-                        'actions' => ['testmin'],
+                        'actions' => ['request'],
                         'allow' => true,
-                        'roles' => ['admin'],
+                        'roles' => ['@'],
                     ],
                 ],
             ],
@@ -55,8 +52,15 @@ class SiteController extends Controller {
         return $this->render('index');
     }
 
-    public function actionAbout() {
-        return $this->render('about');
+    public function actionRequest(){
+        $model = new AddRequestForm();
+        $user = User::findIdentity(Yii::$app->user->identity->id);
+        if ($model->load(Yii::$app->request->post()) && $model->sendRequest($user)) {
+            return $this->goBack();
+        }
+        return $this->render('request', [
+            'model' => $model,
+        ]);
     }
 
 }

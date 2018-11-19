@@ -11,6 +11,13 @@ class User extends \yii\db\ActiveRecord implements \yii\web\IdentityInterface {
         return '{{%user}}';
     }
 
+    public function attributeLabels() {
+        return [
+            'username' => 'Логин',
+            'balance' => 'Баланс',
+        ];
+    }
+
     public function GetSendedOperations() {
         return $this->hasMany(Operation::className(), ['sender_id' => 'id']);
     }

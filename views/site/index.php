@@ -24,6 +24,8 @@ $this->title = 'Тестовый проект';
                     <?php
                     if (Yii::$app->user->can('admin')) {
                         echo('<a class="btn btn-lg btn-success" href="/admin/index">Панель управления</a>');
+                    } else {
+                        echo('<a class="btn btn-lg btn-success" href="/site/request">Подать заявку</a>');
                     }
                     ?>
                 </div>
