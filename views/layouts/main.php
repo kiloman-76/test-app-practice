@@ -34,7 +34,8 @@ AppAsset::register($this);
                 $menuItems[] = ['label' => 'Регистрация', 'url' => ['/user/register']];
                 $menuItems[] = ['label' => 'Войти', 'url' => ['/user/login']];
             } else {
-
+                $menuItems[] = ['label' => 'Новости', 'url' => ['/site/news'], 'option' => ['class' => 'dropdown'], 'linkOptions' => ['class' => 'news-notification']];
+                $menuItems[] = '<div class="news-list"><div class="news-list__close">X</div></div>';
                 $menuItems[] = '<li>'
                         . Html::beginForm(['/user/logout'], 'post')
                         . Html::submitButton(

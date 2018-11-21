@@ -9,8 +9,25 @@ class News extends \yii\db\ActiveRecord {
         return '{{%news}}';
     }
 
-    public static function findUserNews($user_id) {
-        return static::find()->where(['user_id' => $user_id])->all();
+    public function createNews($text, $user_id){
+        $this->text = $text;
+        $this->user_id = $user_id;
+        $this->save();
     }
+
+    public static function GetByID($id) {
+        return static::find()->where(['id' => $id])->one();
+    }
+
+    public static function findUserUnreadNews($user_id) {
+        return static::find()->where(['user_id' => $user_id, 'status' => 0])->all();
+    }
+
+    public function markAsRead(){
+        $this->status = 1;
+        $this->save();
+    }
+
+
 
 }

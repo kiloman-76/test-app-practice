@@ -38,7 +38,7 @@ class AddRequestForm extends Model {
 
         if ($this->validate()) {
             $request = new Request();
-            $request->sender = $sender->id;
+            $request->sender_id = $sender->id;
             $request->text = $this->text;
             $request->save();
 

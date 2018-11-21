@@ -146,7 +146,7 @@ class UserManageController extends Controller {
         $model = new AddMoneyForm();
 
         if ($model->load(Yii::$app->request->post()) && $model->addMoney($user)) {
-            return $this->goBack();
+            return $this->goBack('/user-manage/index');
         }
 
         return $this->render('add-money', [
@@ -163,7 +163,7 @@ class UserManageController extends Controller {
         $model->sender = $user;
 
         if ($model->load(Yii::$app->request->post()) && $model->sendMoney($user)) {
-            return $this->goBack();
+            return $this->goBack('index');
         }
 
         return $this->render('send-money', [

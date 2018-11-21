@@ -14,7 +14,7 @@ class m181119_085138_addRequestTable extends Migration
         $this->createTable('request', [
             'id' => $this->primaryKey()->comment('Первичный ключ'),
             'text' => $this->text()->comment('Текст заявки'),
-            'sender' => $this->integer(100)->comment('ID отправителя'),
+            'sender_id' => $this->integer(100)->comment('ID отправителя'),
             'status' => $this->integer('2')->comment('Статус')->defaultValue(0),
             'creation_data' => 'datetime DEFAULT NOW()',
         ]);

@@ -65,9 +65,7 @@ class AddMoneyForm extends Model {
             $operation->save();
 
             $news = new News;
-            $news->user_id = $recipient->id;
-            $news->text = "На ваш счет добавлено $this->money рублей";
-            $news->save();
+            $news->createNews("На ваш счет добавлено $this->money рублей", $recipient->id);
             return true;
         }
         return false;

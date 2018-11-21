@@ -13,8 +13,8 @@ $this->title = 'Тестовый проект';
             <div class="row-">
                 <div class="col-md-6">
                     <p class="lead">Ваш баланс: <?php echo(Yii::$app->user->identity->balance) ?> </p>
-                    <p class="lead text_color_green">Вы отправили: <?php echo $operations['send'] ?> </p>
-                    <p class="lead text_color_red">Вы получили: <?php echo $operations['recipient'] ?> </p>  
+                    <p class="lead text_color_red">Вы отправили: <?php echo $operations['send'] ?> </p>
+                    <p class="lead text_color_green">Вы получили: <?php echo $operations['recipient'] ?> </p>
                     <p class="lead">Всего операций: <?php echo $operations['number'] ?> </p>  
                 </div>
                 <div class="col-md-6">  
@@ -25,7 +25,7 @@ $this->title = 'Тестовый проект';
                     if (Yii::$app->user->can('admin')) {
                         echo('<a class="btn btn-lg btn-success" href="/admin/index">Панель управления</a>');
                     } else {
-                        echo('<a class="btn btn-lg btn-success" href="/site/request">Подать заявку</a>');
+                        echo('<a class="btn btn-lg btn-success" href="/site/create-request">Подать заявку</a>');
                     }
                     ?>
                 </div>

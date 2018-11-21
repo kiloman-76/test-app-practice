@@ -82,9 +82,7 @@ class SendMoneyForm extends Model {
             $operation->save();
 
             $news = new News;
-            $news->user_id = $recipient->id;
-            $news->text = "Вам начислено $this->money рублей от пользователя $sender->email";
-            $news->save();
+            $news->createNews("Вам начислено $this->money рублей от пользователя $sender->email" ,$recipient->id);
             return true;
         }
         return false;

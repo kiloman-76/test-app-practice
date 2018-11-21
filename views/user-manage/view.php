@@ -53,8 +53,6 @@ $user_current = Yii::$app->user->identity->id;
             'id',
             'username',
             'email:email',
-            'password_hash',
-            'auth_key',
             'balance',
             'status',
         ],

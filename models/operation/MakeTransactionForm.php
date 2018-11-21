@@ -40,26 +40,6 @@ class MakeTransactionForm extends Model {
         ];
     }
 
-    public function attributeLabels() {
-        return [
-            'username' => 'Логин',
-            'password' => 'Пароль',
-            'rememberMe' => 'Запомнить меня',
-        ];
-    }
-
-    /**
-     * Validates the password.
-     * This method serves as the inline validation for password.
-     *
-     * @param string $attribute the attribute currently being validated
-     * @param array $params the additional name-value pairs given in the rule
-     */
-
-    /**
-     * Logs in a user using the provided username and password.
-     * @return bool whether the user is logged in successfully
-     */
     public function sendMoney($sender) {
 
         if ($this->validate()) {
@@ -85,9 +65,9 @@ class MakeTransactionForm extends Model {
             $operation->save();
 
             $news = new News;
-            $news->user_id = $recipient->id;
-            $news->text = "Вам начислено $this->money рублей от пользователя $this->email";
-            $news->save();
+            $news->createNews("C вашего счета было снято $this->money рублей администрацией",  $sender->id );
+            $news = new News;
+            $news->createNews("Вам начислено $this->money рублей от пользователя $sender->email", $recipient->id );
             return true;
         }
         return false;

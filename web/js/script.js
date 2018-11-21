@@ -21,7 +21,6 @@ $('document').ready(function(){
     });
     
     $('body').on('click', '.delete-admin', function() {
-        console.log('add');
         var link = $(this);
         $.ajax({
             url: '/user-manage/delete-admin-status',
@@ -45,10 +44,75 @@ $('document').ready(function(){
             $.pjax.reload({container : '#transactions', timeout: '300', url:'/operation/view-transaction?type=' + $(this).val()});
 
         })
-    })
+    });
     
     $('#sendmoneyform-email').on('keyup', function(){
-        console.log($(this).val());
         $.ajax()
-    })
+    });
+
+    $('body').on('click', '.request-access', function(event) {
+        event.preventDefault();
+        var link = $(this);
+        hreflink = link.attr("href");
+        $.ajax({
+            url: hreflink,
+            type: 'GET',
+            success: function(response) {
+                if(response['MESSAGE'] !== ''){
+                    link.parent().replaceWith('<span>'+ response['MESSAGE'] + '</span>');
+                } else if(response['ERROR']) {
+                    link.parent().append('<span>'+ response['ERROR'] + '</span>');
+                }
+            },
+        });
+        return false;
+    });
+
+    $('.news-notification').mouseenter(function(){
+        $('.news-list').show();
+    });
+
+    $('.news-list__close').click(function(){
+        $('.news-list').hide();
+    });
+
+
+    $.ajax({
+        url: '/news/take-user-news',
+        type: 'GET',
+        success: function (response) {
+            console.log(response);
+            news_list = $('.news-list');
+            count_news = 0;
+            response['NEWS'].forEach(
+                function(element){
+                    news_list.append('<div class="news-list__item active" data-id="' + element['id'] + '"><span class="news-list_item_text">'+ element['text'] +'</span><div class="news-list__item__new"></div></div>');
+                    count_news++;
+                }
+            );
+            $('.news-notification').append('<span class="count-news">'+ count_news +'</span>');
+
+            $('.news-list__item.active').on('mouseover', function(){
+                var news = $(this);
+                $.ajax({
+                    url: '/news/mark-as-read',
+                    type: 'GET',
+                    data: $(this).data(),
+                    success: function(response) {
+                        news.find('.news-list__item__new').animate({opacity: 0}, 1000);
+                        count_news--;
+                        $('.count-news').html(count_news);
+                    },
+                })
+            });
+            $('.news-list__item.active').on('mouseout', function(){
+                $(this).off('mouseover');
+            });
+        }
+
+    });
+
+
+
+
 });

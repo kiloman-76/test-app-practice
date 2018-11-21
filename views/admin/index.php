@@ -11,7 +11,7 @@ $this->title = 'Тестовый проект';
             <a class="btn btn-lg btn-success" href="/user-manage/index">Управление пользователями</a>
         </p>
         <p>
-            <a class="btn btn-lg btn-success" href="/user-manage/request">Управление заявками</a>
+            <a class="btn btn-lg btn-success" href="/admin/request-list">Управление заявками</a>
         </p>
     </div>
 

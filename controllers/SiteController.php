@@ -2,6 +2,7 @@
 
 namespace app\controllers;
 
+use app\models\request\Request;
 use Yii;
 use yii\filters\AccessControl;
 use yii\web\Controller;
@@ -10,22 +11,6 @@ use app\models\User;
 use app\models\request\AddRequestForm;
 
 class SiteController extends Controller {
-
-    public function behaviors() {
-        return [
-            'access' => [
-                'class' => AccessControl::className(),
-                'only' => ['request'],
-                'rules' => [
-                    [
-                        'actions' => ['request'],
-                        'allow' => true,
-                        'roles' => ['@'],
-                    ],
-                ],
-            ],
-        ];
-    }
 
     /**
      * @inheritdoc
@@ -52,15 +37,24 @@ class SiteController extends Controller {
         return $this->render('index');
     }
 
-    public function actionRequest(){
-        $model = new AddRequestForm();
+    public function actionCreateRequest(){
         $user = User::findIdentity(Yii::$app->user->identity->id);
-        if ($model->load(Yii::$app->request->post()) && $model->sendRequest($user)) {
-            return $this->goBack();
+
+        $request = Request::checkUserRequest(Yii::$app->user->identity->id);
+        if(!$request){
+            $model = new AddRequestForm();
+            if ($model->load(Yii::$app->request->post()) && $model->sendRequest($user)) {
+                return $this->goBack();
+            }
+            return $this->render('add-request', [
+                'model' => $model,
+            ]);
+        } else {
+            return $this->render('error', [
+                'message' => 'У вас уже имеется необработанная заявка, ожидайте ее рассмотрения',
+            ]);
         }
-        return $this->render('request', [
-            'model' => $model,
-        ]);
+
     }
 
 }
