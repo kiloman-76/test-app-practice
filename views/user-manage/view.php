@@ -40,8 +40,6 @@ $user_current = Yii::$app->user->identity->id;
         <?php endif; ?>
 
         <?= Html::a('Пополнить счет', ['add-money', 'id' => $model->id], ['class' => 'btn btn-primary']) ?>
-
-
         <?= Html::a('Список операций', ['view-user-operations', 'id' => $model->id], ['class' => 'btn btn-primary']) ?>
         <?= Html::a('Сделать перевод', ['make-transaction', 'id' => $model->id], ['class' => 'btn btn-primary']) ?>
     </p>

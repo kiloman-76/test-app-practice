@@ -40,7 +40,7 @@ class NewsController extends Controller {
     }
 
     public function actionTakeUserNews(){
-        \Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;
+        \Yii::$app->response->format = Response::FORMAT_JSON;
         $user_id = Yii::$app->user->identity->id;
         $responce['NEWS'] = News::findUserUnreadNews($user_id);
         return $responce;

@@ -9,6 +9,7 @@ use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
 use app\models\request\Request;
+use yii\web\Response;
 
 /**
  * AdminController implements the CRUD actions for User model.
@@ -46,12 +47,13 @@ class AdminController extends Controller {
     }
 
     public function actionChangeRequestStatus($request_id, $status){
+        \Yii::$app->response->format = Response::FORMAT_JSON;
         $request = Request::getByID($request_id);
         if($message = $request->changeRequestStatus($status)){
-            $responce['SUCCESS'] = $message;
+            $responce['MESSAGE'] = $message;
         } else {
             $responce['ERROR'] = 'Ошибка при изменении статуса пользователя';
         }
-        return $message;
+        return $responce;
     }
 }

@@ -105,6 +105,10 @@ class User extends \yii\db\ActiveRecord implements \yii\web\IdentityInterface {
         $admin = $rbac->getRole('admin');
         $rbac->assign($admin, $this->getId());
 
+        $news = new News();
+        $news->text = 'Вашему аккаунту были даны полномочия администратора';
+        $news->user_id = $this->getId();
+        $news->save();
 
         return true;
     }
@@ -118,6 +122,10 @@ class User extends \yii\db\ActiveRecord implements \yii\web\IdentityInterface {
         $admin = $rbac->getRole('admin');
         $rbac->revoke($admin, $this->getId());
 
+        $news = new News();
+        $news->text = 'У вашего аккаунта были отозваны полномочия администратора';
+        $news->user_id = $this->getId();
+        $news->save();
 
         return true;
     }

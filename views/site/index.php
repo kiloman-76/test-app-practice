@@ -1,6 +1,6 @@
 <?php
 /* @var $this yii\web\View */
-
+use yii\helpers\Html;
 $this->title = 'Тестовый проект';
 ?>
 <div class="site-index">
@@ -17,15 +17,15 @@ $this->title = 'Тестовый проект';
                     <p class="lead text_color_green">Вы получили: <?php echo $operations['recipient'] ?> </p>
                     <p class="lead">Всего операций: <?php echo $operations['number'] ?> </p>  
                 </div>
-                <div class="col-md-6">  
-                    <p class="lead"><a class="btn btn-lg btn-success" href="/operation/send-money">Отправить деньги</a></p>
-                    <p class="lead"><a class="btn btn-lg btn-success" href="/operation/view-transaction">Ваши операции</a></p>
+                <div class="col-md-6">
+                    <p class="lead"><?= Html::a('Отправить деньги', ['/operation/send-money'], ['class' => 'btn btn-lg btn-success']) ?></p>
+                    <p class="lead"><?= Html::a('Ваши операции', ['/operation/view-transaction'], ['class' => 'btn btn-lg btn-success']) ?></p>
 
                     <?php
                     if (Yii::$app->user->can('admin')) {
-                        echo('<a class="btn btn-lg btn-success" href="/admin/index">Панель управления</a>');
+                        echo(Html::a('Панель управления', ['/admin/index'], ['class' => 'btn btn-lg btn-success']));
                     } else {
-                        echo('<a class="btn btn-lg btn-success" href="/site/create-request">Подать заявку</a>');
+                        echo(Html::a('Подать заявку', ['/site/create-request'], ['class' => 'btn btn-lg btn-success']));
                     }
                     ?>
                 </div>
@@ -36,11 +36,10 @@ $this->title = 'Тестовый проект';
 
             <p class="lead">Чтобы продолжить работу с TestApp, пожалуйста, войдите или зарегистрируйтесь </p>
 
-
-
             <p>
-                <a class="btn btn-lg btn-success" href="/user/login">Войти</a>
-                <a class="btn btn-lg btn-success" href="/user/register">Зарегистрироваться</a>
+                <?= Html::a('Войти', ['user/login'], ['class' => 'btn btn-lg btn-success']) ?>
+                <?= Html::a('Зарегистрироваться', ['user/register'], ['class' => 'btn btn-lg btn-success']) ?>
+
             </p>
 
         <?php endif; ?>

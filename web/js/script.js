@@ -68,8 +68,8 @@ $('document').ready(function(){
         return false;
     });
 
-    $('.news-notification').mouseenter(function(){
-        $('.news-list').show();
+    $('.news-notification').click(function(){
+        $('.news-list').toggle();
     });
 
     $('.news-list__close').click(function(){
@@ -90,7 +90,11 @@ $('document').ready(function(){
                     count_news++;
                 }
             );
-            $('.news-notification').append('<span class="count-news">'+ count_news +'</span>');
+            if(count_news === 0 ){
+                news_list.append('<span>Нет новых новостей</span>')
+            } else {
+                $('.news-notification').append('<span class="count-news">'+ count_news +'</span>');
+            }
 
             $('.news-list__item.active').on('mouseover', function(){
                 var news = $(this);
@@ -101,7 +105,11 @@ $('document').ready(function(){
                     success: function(response) {
                         news.find('.news-list__item__new').animate({opacity: 0}, 1000);
                         count_news--;
-                        $('.count-news').html(count_news);
+                        if(count_news === 0){
+                            $('.count-news').hide();
+                        } else {
+                            $('.count-news').html(count_news);
+                        }
                     },
                 })
             });

@@ -43,7 +43,7 @@ class Request extends \yii\db\ActiveRecord {
     }
 
     public static function  checkUserRequest($id){
-        return static::find()->where(['sender_id' => $id, 'status'=> 0])->all();
+        return static::find()->where(['sender_id' => $id, 'status'=> 0])->orderBy('creation_data')->all();
     }
 
 }

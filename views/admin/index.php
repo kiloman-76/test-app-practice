@@ -1,6 +1,6 @@
 <?php
 /* @var $this yii\web\View */
-
+use yii\helpers\Html;
 $this->title = 'Тестовый проект';
 ?>
 <div class="site-index">
@@ -8,10 +8,11 @@ $this->title = 'Тестовый проект';
     <div class="jumbotron">
         <h1>Добро пожаловать, Администратор!</h1>
         <p>
-            <a class="btn btn-lg btn-success" href="/user-manage/index">Управление пользователями</a>
+            <?= Html::a('Управление пользователями', ['user-manage/index'], ['class' => 'btn btn-lg btn-success']) ?>
+
         </p>
         <p>
-            <a class="btn btn-lg btn-success" href="/admin/request-list">Управление заявками</a>
+            <?= Html::a('Управление заявками', ['admin/request-list'], ['class' => 'btn btn-lg btn-success']) ?>
         </p>
     </div>
 

@@ -63,23 +63,31 @@ class SendMoneyForm extends Model {
      */
     public function sendMoney() {
         if ($this->validate()) {
-            $operation = new Operation;
-            $sender = User::findIdentity(Yii::$app->user->identity->id);
+            $transaction = Yii::$app->db->beginTransaction();
+            try{
+                $operation = new Operation;
+                $sender = User::findIdentity(Yii::$app->user->identity->id);
 
-            $sender->changeBalance(-1 * $this->money);
-            $sender->save();
-            $operation->sender_id = $sender->id;
-            $operation->sender_balance = $sender->balance;
+                $sender->changeBalance(-1 * $this->money);
+                $sender->save();
+                $operation->sender_id = $sender->id;
+                $operation->sender_balance = $sender->balance;
 
-            $recipient = User::findByEmail($this->email);
-            $recipient->changeBalance($this->money);
-            $recipient->save();
-            $operation->recipient_id = $recipient->id;
-            $operation->recipient_balance = $recipient->balance;
-            $operation->money = $this->money;
-            $operation->creation_data = date('U');
-            $operation->creator_id = $sender->id;
-            $operation->save();
+                $recipient = User::findByEmail($this->email);
+                $recipient->changeBalance($this->money);
+                $recipient->save();
+                $operation->recipient_id = $recipient->id;
+                $operation->recipient_balance = $recipient->balance;
+
+                $operation->money = $this->money;
+                $operation->creation_data = date('U');
+                $operation->creator_id = $sender->id;
+                $operation->save();
+
+                $transaction->commit();
+            } catch (\Exception $e){
+                $transaction->rollback();
+            }
 
             $news = new News;
             $news->createNews("Вам начислено $this->money рублей от пользователя $sender->email" ,$recipient->id);

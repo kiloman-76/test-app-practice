@@ -39,7 +39,6 @@ class SiteController extends Controller {
 
     public function actionCreateRequest(){
         $user = User::findIdentity(Yii::$app->user->identity->id);
-
         $request = Request::checkUserRequest(Yii::$app->user->identity->id);
         if(!$request){
             $model = new AddRequestForm();

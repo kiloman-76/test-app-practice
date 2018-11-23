@@ -43,26 +43,32 @@ class MakeTransactionForm extends Model {
     public function sendMoney($sender) {
 
         if ($this->validate()) {
-            $operation = new Operation;
+            $transaction = Yii::$app->db->beginTransaction();
+            try{
+                $operation = new Operation;
+                $sender->changeBalance(-1 * $this->money);
+                $sender->save();
 
-            $sender->changeBalance(-1 * $this->money);
-            $sender->save();
+                $operation->sender_id = $sender->id;
+                $operation->sender_balance = $sender->balance;
 
-            $operation->sender_id = $sender->id;
-            $operation->sender_balance = $sender->balance;
+                $recipient = User::findByEmail($this->email);
+                $recipient->changeBalance($this->money);
+                $recipient->save();
 
-            $recipient = User::findByEmail($this->email);
-            $recipient->changeBalance($this->money);
-            $recipient->save();
+                $operation->recipient_id = $recipient->id;
+                $operation->recipient_balance = $recipient->balance;
 
-            $operation->recipient_id = $recipient->id;
-            $operation->recipient_balance = $recipient->balance;
+                $operation->money = $this->money;
+                $operation->creation_data = date('U');
+                $operation->creator_id = Yii::$app->user->identity->id;
 
-            $operation->money = $this->money;
-            $operation->creation_data = date('U');
-            $operation->creator_id = Yii::$app->user->identity->id;
+                $operation->save();
+                $transaction->commit();
+            } catch (\Exception $e){
+                $transaction->rollback();
+            }
 
-            $operation->save();
 
             $news = new News;
             $news->createNews("C вашего счета было снято $this->money рублей администрацией",  $sender->id );
