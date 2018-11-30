@@ -2,7 +2,7 @@ actor: Tester
 paths:
     tests: tests
     log: tests/_output
-    data: tests/_data
+    data: tests/fixtures/data
     helpers: tests/_support
 settings:
     bootstrap: _bootstrap.php
@@ -11,7 +11,7 @@ settings:
 modules:
     config:
         Yii2:
-            configFile: 'config/test.php'
+            configFile: '../config/test.php'
             cleanup: false
 
 # To enable code coverage:

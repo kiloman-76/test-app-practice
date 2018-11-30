@@ -15,7 +15,7 @@ class LoginFormTest extends \Codeception\Test\Unit
             'profiles' => [
                 'class' => UserFixture::className(),
                 // fixture data located in tests/_data/user.php
-                'dataFile' => codecept_data_dir() . 'user.php'
+                'dataFile' => codecept_data_dir() . 'app/tests/fixtures/data/user.php'
             ],
         ];
     }
