@@ -10,6 +10,7 @@ use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
 use app\models\request\Request;
 use yii\web\Response;
+use app\models\GenerateListForm;
 
 /**
  * AdminController implements the CRUD actions for User model.
@@ -43,6 +44,18 @@ class AdminController extends Controller {
         $requests = Request::getAllUnverifiedRequests();
         return $this->render('request-list', [
             'requests' => $requests
+        ]);
+    }
+
+    public function actionGenerateList(){
+        $model = new GenerateListForm();
+
+        if ($model->load(Yii::$app->request->post()) && $model->generateList()) {
+            $message = "Деньги были отправлены";
+        }
+
+        return $this->render('generate-list', [
+            'model' => $model,
         ]);
     }
 

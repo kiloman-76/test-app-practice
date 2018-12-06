@@ -12,6 +12,7 @@ $config = [
         '@npm' => '@vendor/npm-asset',
         '@fixtures' => '@app/tests/_data'
     ],
+    'language' => 'en-US',
     'components' => [
         'request' => [
             // !!! insert a secret key in the following (if it is empty) - this is required by cookie validation
@@ -40,7 +41,7 @@ $config = [
             'targets' => [
                 [
                     'class' => 'yii\log\FileTarget',
-                    'levels' => ['error', 'warning'],
+                    'levels' => ['error', 'warning', 'info'],
                 ],
             ],
         ],
@@ -54,6 +55,19 @@ $config = [
         'authManager' => [
             'class' => 'yii\rbac\DbManager',
         ],
+        'i18n' => [
+            'translations' => [
+                'app*' => [
+                    'class' => 'yii\i18n\PhpMessageSource',
+                    'basePath' => '@app/messages',
+                    'sourceLanguage' => 'ru-RU',
+                    'fileMap' => [
+                        'app'       => 'app.php',
+                        'app/admin' => 'admin.php',
+                    ],
+                ],
+            ],
+        ]
     ],
     'params' => $params,
 ];

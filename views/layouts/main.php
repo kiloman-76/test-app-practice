@@ -28,18 +28,18 @@ AppAsset::register($this);
         <div class="wrap">
             <?php
             $menuItems = [
-                ['label' => 'Главная', 'url' => ['/site/index']],
+                ['label' => \Yii::t('app','Main Page'), 'url' => ['/site/index']],
             ];
             if (Yii::$app->user->isGuest) {
-                $menuItems[] = ['label' => 'Регистрация', 'url' => ['/user/register']];
-                $menuItems[] = ['label' => 'Войти', 'url' => ['/user/login']];
+                $menuItems[] = ['label' => \Yii::t('app','Register'), 'url' => ['/user/register']];
+                $menuItems[] = ['label' => \Yii::t('app','Auth'), 'url' => ['/user/login']];
             } else {
-                $menuItems[] = ['label' => 'Новости', 'url' => ['#'], 'option' => ['class' => 'dropdown'], 'linkOptions' => ['class' => 'news-notification']];
+                $menuItems[] = ['label' => \Yii::t('app','News'), 'url' => ['#'], 'option' => ['class' => 'dropdown'], 'linkOptions' => ['class' => 'news-notification']];
                 $menuItems[] = '<div class="news-list"><div class="news-list__close">X</div></div>';
                 $menuItems[] = '<li>'
                         . Html::beginForm(['/user/logout'], 'post')
                         . Html::submitButton(
-                                'Выйти (' . Yii::$app->user->identity->email . ')', ['class' => 'btn btn-link logout']
+                        \Yii::t('app','Logout') . Yii::$app->user->identity->email . ')', ['class' => 'btn btn-link logout']
                         )
                         . Html::endForm()
                         . '</li>';
@@ -48,7 +48,7 @@ AppAsset::register($this);
             $brandLabel = "";
             $brandUrl = "";
             if (Yii::$app->user->can('admin')) {
-                $brandLabel = "Панель управления";
+                $brandLabel = \Yii::t('app','Setting panel');
                 $brandUrl = "/admin/index";
             }
 

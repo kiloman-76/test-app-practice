@@ -1,31 +1,32 @@
 <?php
+
 /* @var $this yii\web\View */
 use yii\helpers\Html;
 $this->title = 'Тестовый проект';
+$faker = Faker\Factory::create();
 ?>
 <div class="site-index">
-
     <div class="jumbotron">
-        <h1>Добро пожаловать!</h1>
+        <h1><?=\Yii::t('app','Welcome');?></h1>
 
         <?php if (!Yii::$app->user->isGuest) : ?>
 
             <div class="row-">
                 <div class="col-md-6">
-                    <p class="lead">Ваш баланс: <?php echo(Yii::$app->user->identity->balance) ?> </p>
-                    <p class="lead text_color_red">Вы отправили: <?php echo $operations['send'] ?> </p>
-                    <p class="lead text_color_green">Вы получили: <?php echo $operations['recipient'] ?> </p>
-                    <p class="lead">Всего операций: <?php echo $operations['number'] ?> </p>  
+                    <p class="lead"><?=\Yii::t('app','Balance');?><?php echo(Yii::$app->user->identity->balance) ?> </p>
+                    <p class="lead text_color_red"><?=\Yii::t('app','Send');?><?php echo $operations['send'] ?> </p>
+                    <p class="lead text_color_green"><?=\Yii::t('app','Received');?><?php echo $operations['recipient'] ?> </p>
+                    <p class="lead"><?=\Yii::t('app','Total operations', ['n' => $operations['number']]);?></p>
                 </div>
                 <div class="col-md-6">
-                    <p class="lead"><?= Html::a('Отправить деньги', ['/operation/send-money'], ['class' => 'btn btn-lg btn-success']) ?></p>
-                    <p class="lead"><?= Html::a('Ваши операции', ['/operation/view-transaction'], ['class' => 'btn btn-lg btn-success']) ?></p>
+                    <p class="lead"><?= Html::a(\Yii::t('app','Send money'), ['/operation/send-money'], ['class' => 'btn btn-lg btn-success']) ?></p>
+                    <p class="lead"><?= Html::a(\Yii::t('app','Your operations'), ['/operation/view-transaction'], ['class' => 'btn btn-lg btn-success']) ?></p>
 
                     <?php
                     if (Yii::$app->user->can('admin')) {
-                        echo(Html::a('Панель управления', ['/admin/index'], ['class' => 'btn btn-lg btn-success']));
+                        echo(Html::a(\Yii::t('app','Setting panel'), ['/admin/index'], ['class' => 'btn btn-lg btn-success']));
                     } else {
-                        echo(Html::a('Подать заявку', ['/site/create-request'], ['class' => 'btn btn-lg btn-success']));
+                        echo(Html::a(\Yii::t('app','Create request'), ['/site/create-request'], ['class' => 'btn btn-lg btn-success']));
                     }
                     ?>
                 </div>
@@ -34,12 +35,11 @@ $this->title = 'Тестовый проект';
 
         <?php else: ?>
 
-            <p class="lead">Чтобы продолжить работу с TestApp, пожалуйста, войдите или зарегистрируйтесь </p>
+            <p class="lead"><?=\Yii::t('app','Please auth')?></p>
 
             <p>
-                <?= Html::a('Войти', ['user/login'], ['class' => 'btn btn-lg btn-success']) ?>
-                <?= Html::a('Зарегистрироваться', ['user/register'], ['class' => 'btn btn-lg btn-success']) ?>
-
+                <?= Html::a(\Yii::t('app','Auth'), ['user/login'], ['class' => 'btn btn-lg btn-success']) ?>
+                <?= Html::a(\Yii::t('app','Register'), ['user/register'], ['class' => 'btn btn-lg btn-success']) ?>
             </p>
 
         <?php endif; ?>

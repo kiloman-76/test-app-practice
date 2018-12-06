@@ -50,6 +50,13 @@ class User extends \yii\db\ActiveRecord implements \yii\web\IdentityInterface {
         return null;
     }
 
+    public static function GetRandomUsers(){
+        $userArr = static::find()->where('id != :id', ['id'=>1])->all();
+        $user = array_rand($userArr, 2);
+        return array($userArr[$user[0]], $userArr[$user[1]]);
+
+    }
+
     /**
      * Finds user by username
      *
