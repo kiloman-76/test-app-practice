@@ -26,5 +26,4 @@ class Operation extends \yii\db\ActiveRecord {
         return static::find()->where(['sender_id' => $user_id])
                         ->orWhere(['recipient_id' => $user_id])->all();
     }
-
 }

@@ -12,6 +12,9 @@ $this->title = 'Тестовый проект';
             <?= Html::a('Управление пользователями', ['user-manage/index'], ['class' => 'btn btn-lg btn-success']) ?>
         </p>
         <p>
+            <?= Html::a('Список операций', ['admin/operation-list'], ['class' => 'btn btn-lg btn-success']) ?>
+        </p>
+        <p>
             <?= Html::a('Управление заявками', ['admin/request-list'], ['class' => 'btn btn-lg btn-success']) ?>
         </p>
         <p>

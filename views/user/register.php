@@ -29,7 +29,9 @@ $this->params['breadcrumbs'][] = $this->title;
 
     <?= $form->field($model, 'email')->textInput(['autofocus' => true]) ?>
 
-    <?= $form->field($model, 'password')->textInput(['autofocus' => true]) ?>
+    <?= $form->field($model, 'password')->passwordInput(['autofocus' => true]) ?>
+
+    <?= $form->field($model, 'confirm')->passwordInput(['autofocus' => true]) ?>
 
     <div class="form-group">
         <div class="col-lg-offset-1 col-lg-11">

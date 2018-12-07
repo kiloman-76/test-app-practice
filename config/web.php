@@ -34,7 +34,15 @@ $config = [
             // send all mails to a file by default. You have to set
             // 'useFileTransport' to false and configure a transport
             // for the mailer to send real emails.
-            'useFileTransport' => true,
+            'useFileTransport' => false,
+            'transport' => [
+                'class' => 'Swift_SmtpTransport',
+                'host' => 'smtp.mailtrap.io',  // e.g. smtp.mandrillapp.com or smtp.gmail.com
+                'username' => 'b5b8344162b072',
+                'password' => '0f605f092cb42d',
+                'port' => '2525', // Port 25 is a very common port too
+                'encryption' => 'tls', // It is often used, check your provider or mail server specs
+            ],
         ],
         'log' => [
             'traceLevel' => YII_DEBUG ? 3 : 0,

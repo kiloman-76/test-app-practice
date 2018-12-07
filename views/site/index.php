@@ -3,7 +3,6 @@
 /* @var $this yii\web\View */
 use yii\helpers\Html;
 $this->title = 'Тестовый проект';
-$faker = Faker\Factory::create();
 ?>
 <div class="site-index">
     <div class="jumbotron">

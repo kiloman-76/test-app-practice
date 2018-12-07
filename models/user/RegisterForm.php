@@ -11,6 +11,7 @@ class RegisterForm extends Model {
     public $username;
     public $email;
     public $password;
+    public $confirm;
 
     /**
      * @inheritdoc
@@ -28,6 +29,8 @@ class RegisterForm extends Model {
             ['email', 'unique', 'targetClass' => '\app\models\User', 'message' => 'Пользователь с таким email уже существует.'],
             ['password', 'required'],
             ['password', 'string', 'min' => 6],
+            ['confirm', 'required'],
+            ['confirm', 'compare', 'compareAttribute'=>'password', 'message'=>'Пароли должны совпадать'],
         ];
     }
 
@@ -36,6 +39,7 @@ class RegisterForm extends Model {
             'username' => 'Логин',
             'email' => 'Почта',
             'password' => 'Пароль',
+            'confirm' => 'Подтвердите пароль'
         ];
     }
 

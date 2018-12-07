@@ -129,6 +129,10 @@ a.desc:after {
     background-color:#65ff65;
 }
 
+.operation-item.gray{
+    background-color:#c7c7c7;
+}
+
 .text_color_red{
     color:#cf0000;
 }

@@ -46,7 +46,7 @@ $this->params['breadcrumbs'][] = $this->title;
             'balance',
             //'status',
             ['class' => 'yii\grid\ActionColumn',
-                'template' => '{view}{delete}{update}{add-admin-status}{delete-admin-status}{add-money}{make-transaction}{view-user-operations}{ban}',
+                'template' => '{view}{delete}{update}{add-admin-status}{delete-admin-status}{add-money}{make-transaction}{view-user-operations}',
                 'buttons' => [
                     'view' => function ($url, $model, $key) {
                         return Html::a('<span class="glyphicon glyphicon-eye-open"></span>', $url, ['title' => 'Просмотр']);
@@ -77,9 +77,7 @@ $this->params['breadcrumbs'][] = $this->title;
                     'view-user-operations' => function ($url, $model, $key) {
                         return Html::a('<span class="glyphicon glyphicon-align-justify"></span>', $url, ['title' => 'Просмотреть операции']);
                     },
-                    'ban' => function ($url, $model, $key){
-                        return Html::a('<span class="glyphicon glyphicon-remove text_color_red"></span>', $url, ['title' => 'Забанить']);
-                    }
+
                 ],
             ],
         ],

@@ -14,7 +14,7 @@ use app\models\user\UserSearch;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\web\HttpException;
-
+use app\models\user\CreateUserForm;
 
 
 /**
@@ -84,10 +84,10 @@ class UserManageController extends Controller {
      * @return mixed
      */
     public function actionCreate() {
-        $model = new User();
+        $model = new CreateUserForm();
 
-        if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            return $this->redirect(['view', 'id' => $model->id]);
+        if ($model->load(Yii::$app->request->post()) && $user = $model->createUser()) {
+            return $this->redirect(['view', 'id' => $user->id]);
         }
 
         return $this->render('create', [
@@ -126,7 +126,14 @@ class UserManageController extends Controller {
         if ($id == Yii::$app->user->identity->id) {
             throw new HttpException(403, 'Вы не можете редактировать себя!');
         }
-        $this->findModel($id)->delete();
+        $user = $this->findModel($id);
+        if($user->sendedOperations || $user->recipientOperations || $user->createdOperations){
+            return $this->render('../site/error', [
+                'message' => 'У данного пользователя имеются операции с другими пользователями, его нельзя удалить',
+            ]);
+        } else {
+            $user->delete();
+        }
 
         return $this->redirect(['index']);
     }
@@ -161,7 +168,8 @@ class UserManageController extends Controller {
         }
 
         return $this->render('send-money', [
-                    'model' => $model,
+            'model' => $model,
+            'user' => $user
         ]);
     }
 

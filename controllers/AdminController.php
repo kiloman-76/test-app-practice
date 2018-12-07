@@ -2,6 +2,7 @@
 
 namespace app\controllers;
 
+use app\models\operation\Operation;
 use Yii;
 use app\models\User;
 use app\models\user\UserSearch;
@@ -11,6 +12,7 @@ use yii\filters\VerbFilter;
 use app\models\request\Request;
 use yii\web\Response;
 use app\models\GenerateListForm;
+use yii\data\Pagination;
 
 /**
  * AdminController implements the CRUD actions for User model.
@@ -69,4 +71,15 @@ class AdminController extends Controller {
         }
         return $responce;
     }
+
+    public function actionOperationList(){
+        $query = Operation::find();
+        $pages = new Pagination(['totalCount' => $query->count()]);
+        $operations = $query->offset($pages->offset)->limit($pages->limit)->all();
+        return $this->render('operation-list', [
+            'operations'=> $operations,
+            'pagination' => $pages
+        ]);
+    }
+
 }

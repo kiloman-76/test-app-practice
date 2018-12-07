@@ -10,8 +10,9 @@ $this->title = 'Отправить деньги';
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="site-login">
-    <h1><?= Html::encode($this->title) ?></h1>
-
+    <h1><?= Html::encode($this->title)?></h1>
+    <p><span><b>Пользователь: </b><?=$user->email ?></span></p>
+    <p><span><b>Баланс: </b><?=$user->balance ?> руб.</span></p>
     <?php
     $form = ActiveForm::begin([
                 'id' => 'login-form',
